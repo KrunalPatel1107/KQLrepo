@@ -1,7 +1,26 @@
+Use below queried to extract UPNs/Users from SecurityAlerts Table in Sentinel. 
+There are three queries because the UPNs are stored in three different variables in logs, depending on what MS product is providing that perticular alert. 
+
 SecurityAlert
 | extend EntitiesDynamicArray=parse_json(Entities)
 | mvexpand EntitiesDynamicArray
 | extend Entitytype = tostring(parse_json(EntitiesDynamicArray).Type)
 | extend UPN = EntitiesDynamicArray.Name
+| extend UPNString = tostring(UPN)
+| summarize count() by UPNString
+
+SecurityAlert
+| extend EntitiesDynamicArray=parse_json(Entities)
+| mvexpand EntitiesDynamicArray
+| extend Entitytype = tostring(parse_json(EntitiesDynamicArray).Type)
+| extend UPN = EntitiesDynamicArray.UserPrincipalName
+| extend UPNString = tostring(UPN)
+| summarize count() by UPNString
+
+SecurityAlert
+| extend EntitiesDynamicArray=parse_json(Entities)
+| mvexpand EntitiesDynamicArray
+| extend Entitytype = tostring(parse_json(EntitiesDynamicArray).Type)
+| extend UPN = EntitiesDynamicArray.DisplayName
 | extend UPNString = tostring(UPN)
 | summarize count() by UPNString
