@@ -1,0 +1,8 @@
+This query extracts hostnames from SecurityAlerts table in Sentinel.
+
+SecurityAlert
+| extend EntitiesDynamicArray=parse_json(Entities)
+| mvexpand EntitiesDynamicArray
+| extend HostName = EntitiesDynamicArray.HostName
+| extend HostNameString = tostring(HostName)
+| summarize count() by HostNameString
