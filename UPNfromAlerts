@@ -1,0 +1,7 @@
+SecurityAlert
+| extend EntitiesDynamicArray=parse_json(Entities)
+| mvexpand EntitiesDynamicArray
+| extend Entitytype = tostring(parse_json(EntitiesDynamicArray).Type)
+| extend UPN = EntitiesDynamicArray.Name
+| extend UPNString = tostring(UPN)
+| summarize count() by UPNString
