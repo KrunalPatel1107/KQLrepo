@@ -1,0 +1,7 @@
+This query will return all SignIn status for given user in given timeframe. 
+
+SigninLogs
+| where UserDisplayName contains "###"
+| extend MFAStatus = Status.additionalDetails
+| extend StatusString = tostring(MFAStatus)
+| summarize count() by StatusString
