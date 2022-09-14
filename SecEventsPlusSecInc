@@ -1,0 +1,6 @@
+SecurityIncident
+| extend si_AlertIds = tostring(AlertIds[0])
+| join SecurityAlert on $left.si_AlertIds == $right.SystemAlertId
+| join kind = inner SecurityAlert on $left.si_AlertIds == $right.SystemAlertId
+| where Classification contains "benign" or Classification contains "false"
+//| project-reorder Entities, IncidentNumber
