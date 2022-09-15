@@ -6,3 +6,5 @@ SecurityAlert
 | extend HostName = EntitiesDynamicArray.HostName
 | extend HostNameString = tostring(HostName)
 | summarize count() by HostNameString
+
+#THIS IS MY CHANGE
